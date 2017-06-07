@@ -1,0 +1,265 @@
+%
+% File tacl17graph.tex
+%
+% Contact: Jonathan Kummerfeld (jkk@cs.berkeley.edu)
+
+% TACL provided:
+\documentclass[11pt,letterpaper]{article}
+\usepackage[letterpaper]{geometry}
+\usepackage{acl2012}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{url}
+% End TACL provided
+
+\usepackage[style=authoryear-icomp,backref,sortcites=true,sorting=ynt,sortcase=false,backend=biber,maxcitenames=2,maxbibnames=999]{biblatex}
+\bibliography{mybib}
+
+\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage[normalem]{ulem}
+\usepackage{pdflscape}
+\usepackage{rotating}
+\usepackage{color}
+\usepackage{algorithm}
+\usepackage{enumitem}
+\usepackage{synttree}
+\usepackage{array}
+\usepackage{arydshln}
+\usepackage{xcolor,colortbl}
+\usepackage{multicol}
+\usepackage{framed}
+\usepackage{tikz}
+\usepackage{pgf}
+\usepackage{tikz-qtree}
+\usepackage{subcaption}
+\usepackage{mdwlist}
+\usepackage{makeidx}
+\usepackage{fix-cm}
+\usepackage{etoolbox}
+\usepackage{mdframed}
+\usepackage{comment}
+\usepackage{wrapfig}
+\usepackage{pdfpages}
+
+% Last intentionally
+\usepackage[hidelinks]{hyperref}
+
+\DeclareNameAlias{author}{first-last}
+
+% For printing, set hidelinks=true 
+\hypersetup{colorlinks=true,
+plainpages=false,
+linktocpage=true,
+linkcolor=blue,% normal internal document links
+menucolor=blue,% colour for 'menu' links (not sure what these are, it matched linkcolor before)
+anchorcolor=black,% text of the anchor
+citecolor=gray,% bib refs
+urlcolor=gray,% URLs
+pdftitle={TACL Submission},
+pdfauthor={ANON},
+pdfsubject={Natural Language Processing},
+pdfpagelayout=OneColumn}
+
+% Set subref captions to have parentheses, e.g. (a) rather than a
+\captionsetup{subrefformat=parens}
+
+\usetikzlibrary{arrows.meta,backgrounds,positioning,fit,calc,intersections,shapes,patterns}
+
+\tikzset{% 
+  not allowed/.style={%
+    densely dotted,
+    thick,
+    color=red
+  }
+}
+\tikzset{% 
+  required directed/.style={%
+    shorten >=1pt,
+    >=Stealth,
+    ->
+  }
+}
+\tikzset{% 
+  required undirected/.style={%
+  }
+}
+
+\definecolor{mygrey}{rgb}{0.8,0.8,0.8}
+
+\newcommand{\tightparagraph}[1]{\textbf{#1:}}
+
+% To get URL breaking in bib working always
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\setlength{\bibnamesep}{1.5\itemsep}
+
+% Spacing beneath floats
+%%%\setlength{\dbltextfloatsep}{10pt}
+%%%\setlength{\textfloatsep}{10pt}
+\setlength{\floatsep}{12pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{15pt plus 2pt minus 4pt}
+\setlength{\dblfloatsep}{\floatsep}
+\setlength{\dbltextfloatsep}{13pt plus 2pt minus 4pt}
+\setlength{\intextsep}{\floatsep}
+
+% Space above 'proof'
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+  \vspace{-0.5\topsep}% remove the space after the theorem
+  \pushQED{\qed}%
+  \normalfont
+  \topsep0pt \partopsep0pt % no space before
+  \trivlist
+  \item[\hskip\labelsep
+        \itshape
+    #1\@addpunct{.}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+  \addvspace{3pt plus 6pt} % some space after
+}
+\makeatother
+
+% Like a framebox, but with only some sides
+\newmdenv[bottomline=false,rightline=false]{lefttopbot}
+\mdfdefinestyle{mdftight}{skipabove=0pt,innerleftmargin=3pt,innerrightmargin=0pt,innertopmargin=0pt,innerbottommargin=0pt}
+
+\DeclareMathOperator{\abs}{abs}
+
+\newcolumntype{x}[1]{%
+>{\raggedleft\hspace{0pt}}p{#1}}%
+ 
+\newcommand{\mathscale}{0.75}
+\newcommand{\invmathscale}{1.42}
+\newcommand{\textexample}[1]{\textsf{#1}}
+\newcommand{\onlygraphs}[1]{\textcolor{blue}{\scalebox{0.95}{\fbox{$#1$}}}}
+
+% Syntax-tree settings
+\branchheight{0.33in}
+\trianglebalance{50}
+\childsidesep{2ex}
+\childattachsep{2ex}
+\newcommand{\derivscale}{1.0}
+\newcommand{\inlinederivscale}{0.8}
+\newcommand{\derivspace}{\vspace{0mm}}
+\newcommand{\derivaftercompress}{\vspace{0mm}}
+
+\setcounter{totalnumber}{500}
+\setcounter{topnumber}{500}
+\setcounter{bottomnumber}{500}
+\renewcommand\floatpagefraction{.95}
+\renewcommand\dblfloatpagefraction{.95} % for two column documents
+\renewcommand\topfraction{.95}
+\renewcommand\dbltopfraction{.95} % for two column documents
+\renewcommand\bottomfraction{.95}
+\renewcommand\textfraction{.05}
+
+% Set spacing above and below environments to be 0.
+% Main use here is to avoid having space inserted before an align environment when inside a minipage.
+\newcommand{\zerodisplayskips}{%
+  \setlength{\abovedisplayskip}{0pt}
+  \setlength{\belowdisplayskip}{0pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{0pt}}
+
+\setlength{\belowcaptionskip}{-5pt}
+
+% Example of specifying allowed hyphenation within a word
+\hyphenation{ana-ly-sis}
+
+% Define a new environment for mathematical claims
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+
+% Adjust captions to be smaller
+\newcommand{\captionfonts}{\small}
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{{\captionfonts #1: #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    {\captionfonts #1: #2\par}
+  \else
+    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+
+% Avoid "In:" for articles
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
+
+% TACL provided:
+%%%\makeatletter
+%%%\newcommand{\@BIBLABEL}{\@emptybiblabel}
+%%%\newcommand{\@emptybiblabel}[1]{}
+%%%\makeatother
+%%%\DeclareMathOperator*{\argmax}{arg\,max}
+%%%\setlength\titlebox{4.5cm}    % Expanding the titlebox
+% End TACL provided
+
+\setcounter{tocdepth}{0}
+
+\title{My Awesome Paper!}
+
+\author{
+  Author name \\
+  Author address \\
+  Author email address
+}
+
+\date{}
+
+\begin{document}
+
+\begin{parbox}{2.2\linewidth}
+  \centering
+\begin{center}
+{\LARGE
+  \hspace{4cm} Resubmission of TACL \#0000, \\
+Title \\
+}
+\end{center}
+
+\tableofcontents
+
+\part{Author(s) cover letter responding to the original reviews} Starts on next page.
+\end{parbox}
+\newpage
+.
+\newpage
+\newpage
+
+\includepdf[pages=-,offset=0mm 6mm]{cover-letter.pdf}
+\newpage
+
+\part{Revised submission} Starts on next page.
+\newpage
+
+\maketitle
+
+\citetrackerfalse\pagetrackerfalse\backtrackerfalse
+
+This is where the paper goes, with citations like this: \cite{ptb}
+
+\citetrackertrue\pagetrackertrue\backtrackertrue
+
+\newrefcontext[sorting=nyt]
+\printbibliography
+
+\newpage
+.
+\newpage
+\newpage
+\part{Original decision letter and reviews} Starts on next page.
+\newpage
+.
+\newpage
+\includepdf[pages=-,offset=0mm 6mm]{prev-decision.pdf}
+
+\end{document}
+
